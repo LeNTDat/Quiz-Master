@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f90b14ab8e1a4fb338374a3ca9c87, type: 3}
+  m_Name: Question 1
+  m_EditorClassIdentifier: 
+  questionText: What year was the iconic video game "Super Mario Bros." first released?
+  answer:
+  - 1983
+  - 1985
+  - 1987
+  - 1990
+  correctAnswerIndex: 1
