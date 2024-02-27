@@ -983,7 +983,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questionText: {fileID: 1669456940}
-  question: {fileID: 11400000, guid: a2d1416b349ab984f9d652e4510bb956, type: 2}
+  questions:
+  - {fileID: 11400000, guid: a2d1416b349ab984f9d652e4510bb956, type: 2}
+  - {fileID: 11400000, guid: 93921db27d5441349a09a58105f2332b, type: 2}
+  - {fileID: 11400000, guid: 434a27ce8f61a594a962ef25d0d23929, type: 2}
+  - {fileID: 11400000, guid: a910fd606ffe1a1448ba3b5b68ec09f2, type: 2}
+  - {fileID: 11400000, guid: 18714887e41ed3b429f19982a2bd9ba7, type: 2}
   answerButton:
   - {fileID: 1741855079}
   - {fileID: 597850434}
@@ -991,7 +996,7 @@ MonoBehaviour:
   - {fileID: 593151505}
   defaultAnswerSprite: {fileID: 21300000, guid: fe1237c5d04e3a0489a784f0ea9b4f34, type: 3}
   correctAnswerSprite: {fileID: 21300000, guid: 5193c504a85a8e447af8b9f7e87d1b21, type: 3}
-  timer: {fileID: 2027029608}
+  timerImage: {fileID: 2027029608}
 --- !u!1 &1312730832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,7 +1603,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0.3
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0

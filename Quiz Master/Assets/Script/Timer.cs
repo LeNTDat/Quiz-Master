@@ -9,9 +9,18 @@ public class Timer : MonoBehaviour
     float timeShowCorrectQuestion = 5.0f;
     float timerValue;
     public float fillFraction { get; set; }
-    bool isAnsweringQuestion = false;
+    
+    bool isAnsweringQuestion;
+    public bool isAnswering {
+        get { return isAnsweringQuestion; } 
+        set { isAnsweringQuestion = value; } 
+    }
 
-    public bool loadNextQuestion { get; set; }
+    bool loadQuestion;
+    public bool loadNextQuestion {
+        get { return loadQuestion; }
+        set { loadQuestion = value; }
+    }
 
     // Update is called once per frame
     void Update()
@@ -51,7 +60,7 @@ public class Timer : MonoBehaviour
             {
                 timerValue = timeToCompleteQuestion;
                 isAnsweringQuestion = true;
-                loadNextQuestion = true;
+                loadQuestion = true;
             }
         }
         

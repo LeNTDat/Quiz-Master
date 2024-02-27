@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,10 +8,13 @@ public class Quizzzz : MonoBehaviour
 {
     [Header("Question")]
     [SerializeField] TextMeshProUGUI questionText;
-    [SerializeField] QuizzQuestion question;
+    [SerializeField] List<QuizzQuestion> questions = new List<QuizzQuestion>();
+    QuizzQuestion currentQuestions;
+    int currentIndex = 0;
 
     [Header("Answer")]
     [SerializeField] GameObject[] answerButton;
+    bool hasAnsweredEarly = false;
 
     [Header("Button Sprite")]
     [SerializeField] Sprite defaultAnswerSprite;
@@ -22,31 +26,30 @@ public class Quizzzz : MonoBehaviour
     int correctIndex;
     void Start()
     {
-        DisplayQuestion();
         timer = FindObjectOfType<Timer>();
     }
 
     void Update()
     {
-        timerImage.GetComponent<Image>().fillAmount = timer.fillFraction;
+        timerImage.fillAmount = timer.fillFraction;
+        if (timer.loadNextQuestion)
+        {
+            GetNextQuestion();
+            timer.loadNextQuestion = false;
+        }
+        else if (!timer.isAnswering && !hasAnsweredEarly)
+        {
+            DisplayAnswers(-1);
+        }
     }
+
 
 
     public void OnSelectAnswer(int index)
     {
-        Image correctSprite = answerButton[correctIndex].GetComponent<Image>();
-        if (index == correctIndex)
-        {
-            questionText.text = "Correct!!!!";
-        }
-        else
-        {
-            questionText.text = "Sorry the right answer is " + question.GetAnswer(correctIndex);
-        }
-
-        correctSprite.sprite = correctAnswerSprite;
-        Invoke("SetDefaultButtonSprites", 2.0f);
+        DisplayAnswers(index);
         SetButtonState(false);
+        timer.CancelTimer();
     }
 
     void SetDefaultButtonSprites()
@@ -58,15 +61,52 @@ public class Quizzzz : MonoBehaviour
         }
     }
 
+    void DisplayAnswers(int index)
+    {
+        Image spriteShow = answerButton[correctIndex].GetComponent<Image>();
+        if (currentQuestions)
+        {
+            if (index == correctIndex)
+            {
+                questionText.text = "Correct!!!!";
+                hasAnsweredEarly = true;
+            }
+            else
+            {
+                questionText.text = "Sorry the right answer is " + currentQuestions.GetAnswer(correctIndex);
+                hasAnsweredEarly = false;
+            }
+        }
+        
+        spriteShow.sprite = correctAnswerSprite;
+    }
+
     void DisplayQuestion ()
     {
-        questionText.text = question.GetQuestion();
-        correctIndex = question.GetCorrectAnswerIndex();
-        for (int i = 0; i < answerButton.Length; i++)
+        if(currentIndex < questions.Count)
         {
-            TextMeshProUGUI answer = answerButton[i].GetComponentInChildren<TextMeshProUGUI>();
-            answer.text = question.GetAnswer(i);
+            currentQuestions = questions[currentIndex];
+            currentIndex ++;
+            questionText.text = currentQuestions.GetQuestion();
+            correctIndex = currentQuestions.GetCorrectAnswerIndex();
+            for (int i = 0; i < answerButton.Length; i++)
+            {
+                TextMeshProUGUI answer = answerButton[i].GetComponentInChildren<TextMeshProUGUI>();
+                answer.text = currentQuestions.GetAnswer(i);
+            }
         }
+        else
+        {
+
+        }
+        
+    }
+
+    void GetNextQuestion ()
+    {
+        SetButtonState(true);
+        SetDefaultButtonSprites();
+        DisplayQuestion();
     }
 
     void SetButtonState(bool state)
