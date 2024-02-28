@@ -24,9 +24,25 @@ public class Quizzzz : MonoBehaviour
     [SerializeField] Image timerImage;
     Timer timer;
     int correctIndex;
+
+    [Header("Scoring")]
+    [SerializeField] TextMeshProUGUI scoreText;
+    ScoreKeeper scoreKeeper;
+
+    [Header("ProgressBar")]
+    [SerializeField] Slider progressBar;
+
+    public bool isComplete = false;
+    EndScreen endScreen;
     void Start()
     {
         timer = FindObjectOfType<Timer>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        endScreen = FindObjectOfType<EndScreen>();
+        endScreen.gameObject.SetActive(true);
+        print(endScreen.gameObject.name);
+        progressBar.maxValue = questions.Count;
+        progressBar.value = 0;
     }
 
     void Update()
@@ -50,6 +66,16 @@ public class Quizzzz : MonoBehaviour
         DisplayAnswers(index);
         SetButtonState(false);
         timer.CancelTimer();
+        scoreText.text = "Score : " + scoreKeeper.CalculateScore() + "%";
+
+        if (progressBar.value == progressBar.maxValue)
+        {
+            isComplete = true;
+            timer.FinishGame();
+            var score = scoreKeeper.CalculateScore();
+            print(endScreen.gameObject.name);
+            gameObject.SetActive(false);
+        }
     }
 
     void SetDefaultButtonSprites()
@@ -70,6 +96,7 @@ public class Quizzzz : MonoBehaviour
             {
                 questionText.text = "Correct!!!!";
                 hasAnsweredEarly = true;
+                scoreKeeper.IncrementCorrectAnswers();
             }
             else
             {
@@ -77,29 +104,34 @@ public class Quizzzz : MonoBehaviour
                 hasAnsweredEarly = false;
             }
         }
-        
         spriteShow.sprite = correctAnswerSprite;
+    }
+
+    void RandomQuesiton ()
+    {
+        
+        if (currentIndex < questions.Count)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, questions.Count);
+            currentQuestions = questions[randomIndex];
+            questions.RemoveAt(randomIndex);
+            scoreKeeper.IncrementQuestionsSeen();
+        }
+
+
     }
 
     void DisplayQuestion ()
     {
-        if(currentIndex < questions.Count)
+        RandomQuesiton();
+        questionText.text = currentQuestions.GetQuestion();
+        correctIndex = currentQuestions.GetCorrectAnswerIndex();
+        progressBar.value += 1;
+        for (int i = 0; i < answerButton.Length; i++)
         {
-            currentQuestions = questions[currentIndex];
-            currentIndex ++;
-            questionText.text = currentQuestions.GetQuestion();
-            correctIndex = currentQuestions.GetCorrectAnswerIndex();
-            for (int i = 0; i < answerButton.Length; i++)
-            {
-                TextMeshProUGUI answer = answerButton[i].GetComponentInChildren<TextMeshProUGUI>();
-                answer.text = currentQuestions.GetAnswer(i);
-            }
+            TextMeshProUGUI answer = answerButton[i].GetComponentInChildren<TextMeshProUGUI>();
+            answer.text = currentQuestions.GetAnswer(i);
         }
-        else
-        {
-
-        }
-        
     }
 
     void GetNextQuestion ()

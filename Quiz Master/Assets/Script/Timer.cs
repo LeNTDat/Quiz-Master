@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     float timeToCompleteQuestion = 20.0f;
-    float timeShowCorrectQuestion = 5.0f;
+    float timeShowCorrectQuestion = 0.1f;
     float timerValue;
     public float fillFraction { get; set; }
-    
+    bool isFinish;
+
     bool isAnsweringQuestion;
     public bool isAnswering {
         get { return isAnsweringQuestion; } 
@@ -22,15 +23,22 @@ public class Timer : MonoBehaviour
         set { loadQuestion = value; }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        UpdateTimer();
+        if (!isFinish)
+        {
+            UpdateTimer();
+        }
     }
 
     public void CancelTimer()
     {
         timerValue = 0;
+    }
+
+    public void FinishGame()
+    {
+        isFinish = true;
     }
   
 
