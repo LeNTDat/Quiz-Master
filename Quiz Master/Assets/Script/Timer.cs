@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    float timeToCompleteQuestion = 20.0f;
-    float timeShowCorrectQuestion = 0.1f;
+    float timeToCompleteQuestion = 15.0f;
+    float timeShowCorrectQuestion = 3.0f;
     float timerValue;
     public float fillFraction { get; set; }
     bool isFinish;

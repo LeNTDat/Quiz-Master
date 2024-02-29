@@ -33,14 +33,10 @@ public class Quizzzz : MonoBehaviour
     [SerializeField] Slider progressBar;
 
     public bool isComplete = false;
-    EndScreen endScreen;
     void Start()
     {
         timer = FindObjectOfType<Timer>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
-        endScreen = FindObjectOfType<EndScreen>();
-        endScreen.gameObject.SetActive(true);
-        print(endScreen.gameObject.name);
         progressBar.maxValue = questions.Count;
         progressBar.value = 0;
     }
@@ -72,8 +68,6 @@ public class Quizzzz : MonoBehaviour
         {
             isComplete = true;
             timer.FinishGame();
-            var score = scoreKeeper.CalculateScore();
-            print(endScreen.gameObject.name);
             gameObject.SetActive(false);
         }
     }

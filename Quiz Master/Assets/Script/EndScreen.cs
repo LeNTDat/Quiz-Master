@@ -1,21 +1,15 @@
 
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI endGameScoreScreenText;
+    ScoreKeeper scoreKeeper;
 
-    public void EndGameScene(int score)
+    void Start()
     {
-        gameObject.SetActive(true);
-        print(gameObject.active);
-        endGameScoreScreenText.text = "Congratuation!" + "Your Score is :" + score;
-    }
-
-    public void ReloadGame()
-    {
-        SceneManager.LoadScene(0);
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        endGameScoreScreenText.text = "Congratuation! \n" + "Your Score is : " + scoreKeeper.CalculateScore() + "%";
     }
 }
